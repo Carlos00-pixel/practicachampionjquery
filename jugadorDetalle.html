@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JqueryApp</title>
+    <link rel="shortcut icon" href="./images/logoJQuery.jpg">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="content"></div>
+    <div style="text-align:center; margin-top: 40px;">
+        <h1>Jugador Detalle <span id="valor"></span></h1>
+        <table id="tablaJugador" class="table table-bordered" style="width: 1100px; margin: 0 auto;">
+        </table>
+    </div>
+</body>
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+    $("#content").load("menuNavbar.html");
+    var urlEquipos= "https://apichampions.azurewebsites.net";
+
+    $(document).ready(function() {
+        var valorUbicacion = window.location.search;
+
+        const urlParams = new URLSearchParams(valorUbicacion);
+
+        var numeroJugador = urlParams.get("idjugador");
+
+        $("#valor").html(numeroJugador);
+
+        var request = "/api/Jugadores/"+numeroJugador;
+
+        $.getJSON(urlEquipos+request, function(data) {
+            var html = "";
+                html += "<thead>";
+                html += "<tr>";
+                html += "<th style='background-color:#85C1E9'>"+data.nombre+"</th>";
+                html += "</tr>";
+                html += "</thead>";
+                
+                html += "<tbody>";
+                html += "<tr>";
+                html += "<td>";
+                html += "<img src='"+data.imagen+"' style='width:200px'/><br/>";
+                html += "<b>"+data.posicion+"</b><br/>";
+                html += "Fecha Nacimiento: "+data.fechaNacimiento +"<br/>";
+                html += "Pais: "+data.pais +"<br/>";
+                html += "<a class='btn btn-success' href='/detallesJugadores.html?idequipo="+data.idEquipo+"'>Jugadores</a> ";
+                html += "</td>";
+                html += "</tr>";
+                html += "</tbody>";
+            $("#tablaJugador").html(html);
+        });//Cierre getJSON
+    });//Cierre document.ready
+</script>
+</html>

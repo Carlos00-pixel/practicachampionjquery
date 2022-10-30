@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JqueryApp</title>
+    <link rel="shortcut icon" href="./images/logoJQuery.jpg">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="content"></div>
+    <div style="text-align:center; margin-top: 40px;">
+        <h1>Detalles del Equipo: <span id="valor"></span></h1>
+        <table id="tablaEquipo" class="table table-bordered" style= "width:1100px; margin: 0 auto;">
+            <tbody></tbody>
+        </table>
+    </div>
+</body>
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+    $("#content").load("menuNavbar.html");
+    $(document).ready(function() {
+    //Con esta variable recuperamos el valor o valores interesados 
+    //obviando los anteriores al ?
+    var valorUbicacion = window.location.search;
+    console.log(valorUbicacion);
+
+    //Para acceder a los parámetros crearemos un objeto de tipo URLSearchParams 
+    //y usaremos el método get() para obtener cada uno de los valores
+
+    //URLSearchParams define métodos útiles para trabajar 
+    //con los parámetros de búsqueda de una URL.
+
+    const urlParams = new URLSearchParams(valorUbicacion);
+
+    //Accedemos a los valores con un get y pasandole 
+    //el valor que le hayamos indicado en la ruta
+    var valores = urlParams.get("idequipo");
+
+    console.log(valores);
+    
+    $("#valor").html(valores);
+    var url = "https://apichampions.azurewebsites.net";
+        $.getJSON(url+"/api/equipos/"+valores, function(data) {
+            var html = "";
+                html += "<tr>"
+                html += "<td style='background-color:#85C1E9'><b>"+ data.nombre + "</b></td>";
+                html += "</tr>";
+                html += "<tr>"
+                html += 
+                    "<td> <img style='width: 100px;' src ='"+ data.imagen +"'/><br/>"+
+                    "<b>Champions: "+data.champions+"</b><br/>"
+                    + data.descripcion + "<br/>"+
+                    "<a class='btn btn-success' href='/detallesJugadores.html?idequipo="+ data.idEquipo +"'>Jugadores</a>"+
+                    "<a class='btn btn-info' href='/home.html' style='margin-left:10px;'>Volver</a>"+
+                    "</td>";
+                html += "</tr>";
+            $("#tablaEquipo tbody").html(html);
+        });//Cierre getJSON
+    }); //Cierre document.ready
+</script>
+</html>

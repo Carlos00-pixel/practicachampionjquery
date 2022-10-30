@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JqueryApp</title>
+    <link rel="shortcut icon" href="./images/logoJQuery.jpg">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="content"></div>
+    <div style="text-align: center;">
+        <h1>Apuestas</h1><br/>
+        <a class="btn btn-danger" href="/crearApuesta.html">Crear Apuesta</a>
+        <table id="tablaApuesta" class="table table-bordered table-dark" style= "width:1100px; margin: 0 auto; margin-top: 10px;">
+            <thead>
+                <tr>
+                    <th>USUARIO</th>
+                    <th>RESULTADO</th>
+                    <th>FECHA</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</body>
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+    $("#content").load("menuNavbar.html");
+    $(document).ready(function() {
+        var url = "https://apichampions.azurewebsites.net";
+        $.ajax({
+            "url":  url+"/api/Apuestas",
+            "method":"GET",
+            "dataType":"json",
+            success : function (data) {
+                var html = "";
+                $("#tablaApuesta tbody").text("");
+                $.each(data,function(index,apue){
+                    html += "<tr>";
+                    html += "<td>"+apue.usuario+"</td>";
+                    html += "<td>"+apue.resultado+"</td>";
+                    html += "<td>"+apue.fecha+"</td>";
+                    html += "</tr>";
+                }); //Cierre each
+                $("#tablaApuesta tbody").html(html);
+            }
+        });//Cierre ajax
+    }); //Cierre document.ready
+</script>
+</html>

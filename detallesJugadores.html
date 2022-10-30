@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JqueryApp</title>
+    <link rel="shortcut icon" href="./images/logoJQuery.jpg">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="content"></div>
+    <div style="text-align:center; margin-top: 40px;">
+        <h1>Detalles Jugadores del equipo: <span id="equipo"></span></h1><br/>
+        <table id="tablaJugadores" class="table table-bordered" style= "width:1100px; margin: 0 auto;">
+            <thead>
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>IMAGEN</th>
+                    <th>DETALLES</th>
+                </tr>
+            <thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</body>
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+    $("#content").load("menuNavbar.html");
+    var urlEquipos= "https://apichampions.azurewebsites.net";
+
+    $(document).ready(function(){
+        var valorUbicacion = window.location.search;
+
+        const urlParams = new URLSearchParams(valorUbicacion);
+
+        var numeroEquipo = urlParams.get("idequipo");
+        
+        $("#equipo").html(numeroEquipo);
+
+        var request = "/api/Jugadores/JugadoresEquipo/"+numeroEquipo;
+
+        $.ajax({
+            "url": urlEquipos + request,
+            "method": "GET",
+            "datatype": "json",
+            success: function(data){
+                var html = "";
+                $("#tablaJugadores tbody").text("");
+                $.each(data,function(index,jugador){
+                    html += "<tr>";
+                    html += "<td>"+jugador.nombre+"</td>";
+                    html += "<td> <img src='"+jugador.imagen+"' style='width:100px;'/> </td>";
+                    html += "<td> <a class='btn btn-danger' href='/jugadorDetalle.html?idjugador="+jugador.idJugador+"'>Detalles</a> </td>";
+                    html += "</tr>";
+                    console.log(html);
+                });//Cierre each
+                $("#tablaJugadores tbody").html(html);
+            }
+        });//Cierre ajax
+    }); //Cierre document.ready
+</script>
+</html>

@@ -35,12 +35,12 @@
     </nav>
 </body>
 <script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/Global.js"></script>
 <script>
     $(document).ready(function(){
-        var url = "https://apichampions.azurewebsites.net";
 
         $.ajax({
-            "url":  url+"/api/equipos",
+            "url": Global.url+"/api/equipos",
             "method":"GET",
             "dataType":"json",
             success : function (data) {

@@ -19,6 +19,8 @@
 </body>
 <script src="js/jquery-3.6.1.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/Global.js"></script>
+
 <script>
     $("#content").load("menuNavbar.html");
     $(document).ready(function() {
@@ -42,8 +44,7 @@
     console.log(valores);
     
     $("#valor").html(valores);
-    var url = "https://apichampions.azurewebsites.net";
-        $.getJSON(url+"/api/equipos/"+valores, function(data) {
+        $.getJSON(Global.url+"/api/equipos/"+valores, function(data) {
             var html = "";
                 html += "<tr>"
                 html += "<td style='background-color:#85C1E9'><b>"+ data.nombre + "</b></td>";

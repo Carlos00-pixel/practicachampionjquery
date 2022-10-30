@@ -18,9 +18,10 @@
 </body>
 <script src="js/jquery-3.6.1.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/Global.js"></script>
+
 <script>
     $("#content").load("menuNavbar.html");
-    var urlEquipos= "https://apichampions.azurewebsites.net";
 
     $(document).ready(function() {
         var valorUbicacion = window.location.search;
@@ -33,7 +34,7 @@
 
         var request = "/api/Jugadores/"+numeroJugador;
 
-        $.getJSON(urlEquipos+request, function(data) {
+        $.getJSON(Global.url+request, function(data) {
             var html = "";
                 html += "<thead>";
                 html += "<tr>";

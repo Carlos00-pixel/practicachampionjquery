@@ -26,11 +26,12 @@
 </body>
 <script src="js/jquery-3.6.1.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/Global.js"></script>
+
 <script>
     $("#content").load("menuNavbar.html");
     $(document).ready(function(){
         $("#botonInsertar").click(function () {
-            var url = "https://apichampions.azurewebsites.net";
 
             var usu = $("#cajaUsuario").val();
             var res = $("#cajaResultado").val();
@@ -48,7 +49,7 @@
             var request= "/api/Apuestas";
 
             $.ajax({
-                "url": url + request,
+                "url": Global.url + request,
                 "type": "POST",
                 "data": dataJson,
                 "contentType": "application/json",

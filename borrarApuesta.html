@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JqueryApp</title>
+    <link rel="shortcut icon" href="./images/logoJQuery.jpg">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="content"></div>
+    <div style="text-align:center; margin-top: 40px;">
+        <a class="btn btn-success" href="/apuestas.html">Volver a la lista</a>
+        <h1>¿Seguro que quieres eliminar la Apuesta:
+            <span style="color: red;" id="idApuesta"></span>?
+        </h1>
+        <button class="btn btn-danger" href="/apuestas.html" id="botonEliminar">Eliminar Apuesta</button>
+    </div>
+</body>
+<script src="js/jquery-3.6.1.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/Global.js"></script>
+<script>
+    $("#content").load("menuNavbar.html");
+    $(document).ready(function(){
+        var valorUbicacion = window.location.search;
+
+        const urlParams = new URLSearchParams(valorUbicacion);
+
+        var valor = urlParams.get("idapuesta");
+        
+        $("#idApuesta").html(valor);
+
+        $("#botonEliminar").click(function() {
+            var request = "/api/Apuestas/"+valor;
+            $.ajax({
+                "url": Global.url + request,
+                "type": "DELETE",
+                success: function(){
+                    console.log("Eliminado");
+                    $(location).attr('href', '/apuestas.html');
+                }
+            }); //Cierre ajax
+        }); //Cierre botonEliminar
+    }); //Cierre document.ready
+</script>
+</html>
